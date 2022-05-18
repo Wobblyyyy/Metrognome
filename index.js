@@ -1,12 +1,41 @@
 const buttonTapTempo = document.getElementById('tap_tempo');
 const inputTempo = document.getElementById('tempo');
 const buttonStartStop = document.getElementById('start_stop');
+const pCurrentBeat = document.getElementById('current_beat');
+
+function getBeatObject(beat) {
+    return `<div class="beat">${beat}</div>`;
+}
+
+function getBeatArray(beats) {
+    let beatArray = [];
+    for (let beat = 1; beat <= beats; beat++) {
+        beatArray.push(getBeatObject(beat));
+    }
+    return beatArray;
+}
 
 const Metrognome = {
+    // is the metronome currently active?
     isActive: false,
+    // the amount of beats per measure
+    timeSigBeats: 4,
+    // what type of note gets one beat
+    timeSigOneBeat: 4,
+    // what beat the metronome is currently on
+    currentBeat: 0,
 
     click: function () {
-        console.log('click!');
+        if (!Metrognome.isActive) {
+            return;
+        }
+
+        Metrognome.currentBeat++;
+        if (Metrognome.currentBeat > Metrognome.timeSigBeats) {
+            Metrognome.currentBeat = 1;
+        }
+
+        pCurrentBeat.innerHTML = Metrognome.currentBeat;
     },
     setMetronomeState: function (isActive, state) {
         buttonStartStop.innerHTML = state;
@@ -34,8 +63,10 @@ const Metrognome = {
         }
     },
     start: function () {
-        this.setMetronomeState(true, 'STOP');
-        this.scheduleNextClick(this.click);
+        Metrognome.setMetronomeState(true, 'STOP');
+        Metrognome.scheduleNextClick(Metrognome.click);
+        Metrognome.currentBeat = 0;
+        Metrognome.click();
     },
     stop: function () {
         this.setMetronomeState(false, 'START');
