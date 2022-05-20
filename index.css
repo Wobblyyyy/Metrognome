@@ -78,3 +78,29 @@ body {
     font-size: 10vw;
     text-align: center;
 }
+
+.beat {
+    width: 15vw;
+    height: 15vh;
+    display: inline-block;
+    background-color: black;
+    color: white;
+    font-size: 10vw;
+    text-align: center;
+}
+
+.primary {
+    background-color: blue;
+}
+
+.secondary {
+    background-color: red;
+}
+
+.ternary {
+    background-color: green;
+}
+
+.active {
+    background-color: pink;
+}
